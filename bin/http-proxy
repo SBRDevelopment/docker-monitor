@@ -1,0 +1,32 @@
+#!/usr/local/bin/node
+
+var cluster = require('cluster'),
+    proxy 	= require('http-proxy');
+
+var cpus = require('os').cpus().length;
+
+var es_host = process.env.ELASTICSEARCH_PORT_9200_TCP_ADDR
+var es_port = process.env.ELASTICSEARCH_PORT_9200_TCP_PORT
+
+if (cluster.isMaster) {
+
+	if(es_host && es_port) {
+
+		for (var i = 0; i < cpus; i++)
+			cluster.fork();
+
+		cluster.on('exit', function(worker, code, signal) {
+			console.error('worker ' + worker.process.pid + ' died');
+		});
+
+	} else {
+		console.error("Elasticsearch server could not be found")
+	}
+
+} else {
+
+	proxy.createProxyServer({  
+  		target: 'http://' + es_host + ':' + es_port
+	}).listen(9200)
+
+}

@@ -1,0 +1,29 @@
+#!/bin/bash
+
+NPM=/usr/local/bin/npm
+
+PROXY_NAME="http-proxy"
+PROXY="/usr/src/app/bin/http-proxy"
+PROXY_LOG_DIR="/var/log/${PROXY_NAME}"
+
+LOGSTASH_NAME=logstash
+LOGSTASH="/opt/logstash/bin/${LOGSTASH_NAME}"
+LOGSTASH_CONFIG="/usr/src/app/docker-monitor.conf"
+LOGSTASH_LOG_DIR="/var/log/logstash"
+
+start_logstash() {
+	#mkfifo pipe
+	#nc -l -p 9200 < pipe | nc ${ELASTICSEARCH_PORT_9200_TCP_ADDR} ${ELASTICSEARCH_PORT_9200_TCP_PORT} > pipe &
+	$PROXY > ${PROXY_LOG_DIR}/${PROXY_NAME}.stdout 2> ${PROXY_LOG_DIR}/${PROXY_NAME}.err &
+	$LOGSTASH -f $LOGSTASH_CONFIG > ${LOGSTASH_LOG_DIR}/${LOGSTASH_NAME}.stdout 2> ${LOGSTASH_LOG_DIR}/${LOGSTASH_NAME}.err &
+}
+
+start_npm() {
+	$NPM start
+}
+
+case "$1" in
+	start)
+		start_logstash && start_npm
+		;;
+esac

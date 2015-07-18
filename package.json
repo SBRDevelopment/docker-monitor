@@ -1,0 +1,38 @@
+{
+  "name": "logstash-docker-monitor",
+  "version": "0.0.0",
+  "description": "Send Docker statistics to logstash",
+  "scripts": {
+    "start": "node bin/docker-monitor"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SBRDevelopment/logstash-docker-monitor.git"
+  },
+  "keywords": [
+    "logstash",
+    "docker",
+    "monitor",
+    "statistics",
+    "stats",
+    "elasticsearch",
+    "kibana"
+  ],
+  "author": "Brian Wight",
+  "license": "GNU GENERAL PUBLIC LICENSE",
+  "bugs": {
+    "url": "https://github.com/SBRDevelopment/logstash-docker-monitor/issues"
+  },
+  "dependencies": {
+    "optimist": "~0.6.1",
+    "async": "~1.3.0",
+    "docker-remote-api": "~4.4.1",
+    "bunyan": "~1.4.0",
+    "bunyan-logstash-tcp": "~0.3.4",
+    "CBuffer": "~0.1.5",
+    "lodash": "~3.10.0",
+    "cluster": "~0.7.7",
+    "domain": "0.0.1",
+    "http-proxy": "~1.11.1"
+  }
+}

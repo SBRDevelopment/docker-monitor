@@ -1,0 +1,6 @@
+#!/usr/local/bin/node
+
+var Monitor = require('../lib/monitor');
+var Options	= require('../lib/options')
+
+new Monitor(Options.argv).start();
